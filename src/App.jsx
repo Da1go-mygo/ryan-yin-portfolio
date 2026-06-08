@@ -62,6 +62,7 @@ const WORKS = [
     year: "2025",
     desc: "Produced a promotional video for the Lincoln Aviator exhibition booth, translating brand aesthetics into cinematic visual language under a tight post-production timeline.",
     img: IMG_LINCOLN,
+    video: "https://youtu.be/LRORdtVOStY",
   },
   {
     id: 2, title: "Embassy Reception Coverage",
@@ -71,6 +72,7 @@ const WORKS = [
     year: "2026",
     desc: "Selected as the sole company representative to attend an embassy reception. Independently documented the entire event through photography and video for corporate publicity use.",
     img: IMG_EMBASSY,
+    video: "",
   },
   {
     id: 3, title: "Shockwave — Band Documentary",
@@ -80,6 +82,7 @@ const WORKS = [
     year: "2025",
     desc: "Directed and edited a documentary short capturing the live music scene and creative spirit of an independent band, blending intimate interviews with energetic performance footage.",
     img: IMG_SHOCKWAVE,
+    video: "https://youtu.be/fhp0VorZtNg",
   },
   {
     id: 4, title: "Heychic — Fashion Campaign",
@@ -89,6 +92,7 @@ const WORKS = [
     year: "2024",
     desc: "Led apparel photography and post-production for brand promotions. Simultaneously developed seasonal marketing strategies to strengthen online brand visibility and engagement.",
     img: IMG_HEYCHIC,
+    video: "",
   },
   {
     id: 5, title: "M-cube Studio — Promo Film",
@@ -98,6 +102,7 @@ const WORKS = [
     year: "2025",
     desc: "Produced a promotional video for the M-cube recording studio, showcasing its professional-grade facilities and creative atmosphere through carefully composed cinematography.",
     img: IMG_MCUBE,
+    video: "https://youtu.be/nJOPZ7Z6ZHo",
   },
   {
     id: 6, title: "Seina — Artist Interview",
@@ -107,14 +112,36 @@ const WORKS = [
     year: "2025",
     desc: "Filmed and edited an in-depth interview with music producer Seina at M-cube Studio, managing the entire workflow from interview planning through final cut delivery.",
     img: IMG_SEINA,
+    video: "",
+  },
+  {
+    id: 7, title: "Sailing — Brand Promo Film",
+    subtitle: "Promotional Film · Cinematography & Editing",
+    category: "Commercial",
+    org: "Personal Project · Sydney",
+    year: "2026",
+    desc: "Shot and edited a cinematic promotional film on the water, capturing the speed, light and atmosphere of sailing on Sydney Harbour and shaping the footage into a polished brand piece.",
+    img: "https://img.youtube.com/vi/abNL4PHTx4M/hqdefault.jpg",
+    video: "https://youtu.be/abNL4PHTx4M",
+  },
+  {
+    id: 8, title: "Short-Form Social — Reels & TikTok",
+    subtitle: "Vertical Short · Concept, Shooting & Editing",
+    category: "Social",
+    org: "Personal Project",
+    year: "2026",
+    desc: "Created a scroll-stopping vertical short for Instagram Reels and TikTok, handling the concept, filming and fast-cut editing to demonstrate native short-form content production.",
+    img: "https://img.youtube.com/vi/w1Qqm3mSKcc/hqdefault.jpg",
+    video: "https://youtube.com/shorts/w1Qqm3mSKcc",
   },
 ];
 
-const CATEGORIES = ["All", "Film", "Commercial", "Event", "Marketing"];
+const CATEGORIES = ["All", "Film", "Commercial", "Event", "Marketing", "Social"];
 
 /* ── WorkCard ── */
 function WorkCard({ work, index, onClick }) {
   const [hovered, setHovered] = useState(false);
+  const [imgOk, setImgOk] = useState(true);
   return (
     <Reveal delay={0.06 * index}>
       <div
@@ -124,16 +151,20 @@ function WorkCard({ work, index, onClick }) {
         style={{
           cursor: "pointer", position: "relative", overflow: "hidden",
           aspectRatio: "16/10",
+          /* Branded fallback shown when there is no usable cover image */
+          background: `linear-gradient(135deg, ${C.accent} 0%, ${C.fg} 100%)`,
           transition: "transform 0.5s cubic-bezier(.25,.46,.45,.94), box-shadow 0.5s ease",
           transform: hovered ? "translateY(-6px)" : "none",
           boxShadow: hovered ? "0 20px 60px rgba(0,0,0,0.15)" : "0 2px 12px rgba(0,0,0,0.06)",
         }}
       >
-        <img src={work.img} alt={work.title} style={{
-          width: "100%", height: "100%", objectFit: "cover", display: "block",
-          transition: "transform 0.6s cubic-bezier(.25,.46,.45,.94)",
-          transform: hovered ? "scale(1.04)" : "scale(1)",
-        }} />
+        {work.img && imgOk && (
+          <img src={work.img} alt={work.title} onError={() => setImgOk(false)} style={{
+            width: "100%", height: "100%", objectFit: "cover", display: "block",
+            transition: "transform 0.6s cubic-bezier(.25,.46,.45,.94)",
+            transform: hovered ? "scale(1.04)" : "scale(1)",
+          }} />
+        )}
         {/* Overlay */}
         <div style={{
           position: "absolute", inset: 0,
@@ -142,6 +173,25 @@ function WorkCard({ work, index, onClick }) {
             : "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)",
           transition: "all 0.45s ease",
         }} />
+        {/* Play badge — only on works that have a video */}
+        {work.video && (
+          <div style={{
+            position: "absolute", top: "50%", left: "50%", zIndex: 4,
+            transform: hovered ? "translate(-50%,-50%) scale(1.08)" : "translate(-50%,-50%) scale(1)",
+            width: 56, height: 56, borderRadius: "50%",
+            background: "rgba(0,0,0,0.45)", backdropFilter: "blur(4px)",
+            border: "1px solid rgba(255,255,255,0.6)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "transform 0.4s cubic-bezier(.25,.46,.45,.94), background 0.3s ease",
+            pointerEvents: "none",
+          }}>
+            <div style={{
+              width: 0, height: 0, marginLeft: 4,
+              borderTop: "9px solid transparent", borderBottom: "9px solid transparent",
+              borderLeft: "15px solid rgba(255,255,255,0.95)",
+            }} />
+          </div>
+        )}
         <div style={{
           position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 3,
           padding: "24px 20px 18px",
@@ -162,6 +212,21 @@ function WorkCard({ work, index, onClick }) {
   );
 }
 
+/* ── Video helpers ──
+   Convert a YouTube/Vimeo/Google-Drive share link into an embeddable URL.
+   Returns null when the link is a direct video file (mp4/webm), so the modal
+   falls back to a native <video> player. */
+function toEmbedUrl(url) {
+  if (!url) return null;
+  let m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+  if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0`;
+  m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return `https://player.vimeo.com/video/${m[1]}`;
+  m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/);
+  if (m) return `https://drive.google.com/file/d/${m[1]}/preview`;
+  return null;
+}
+
 /* ── Work Detail Modal ── */
 function WorkModal({ work, onClose }) {
   useEffect(() => {
@@ -180,11 +245,29 @@ function WorkModal({ work, onClose }) {
         background: C.bg, maxWidth: 680, width: "100%",
         padding: 0, position: "relative", maxHeight: "90vh", overflowY: "auto",
       }}>
-        {/* Image header */}
-        <div style={{ position: "relative", overflow: "hidden" }}>
-          <img src={work.img} alt={work.title} style={{
-            width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block",
-          }} />
+        {/* Media header — video player when a link exists, otherwise the image */}
+        <div style={{ position: "relative", overflow: "hidden", background: "#000" }}>
+          {work.video ? (
+            toEmbedUrl(work.video) ? (
+              <div style={{ position: "relative", width: "100%", aspectRatio: "16/9" }}>
+                <iframe
+                  src={toEmbedUrl(work.video)}
+                  title={work.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0, display: "block" }}
+                />
+              </div>
+            ) : (
+              <video src={work.video} poster={work.img} controls playsInline preload="metadata" style={{
+                width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block", background: "#000",
+              }} />
+            )
+          ) : (
+            <img src={work.img} alt={work.title} style={{
+              width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block",
+            }} />
+          )}
           <button onClick={onClose} style={{
             position: "absolute", top: 16, right: 16,
             background: "rgba(0,0,0,0.4)", backdropFilter: "blur(8px)",
