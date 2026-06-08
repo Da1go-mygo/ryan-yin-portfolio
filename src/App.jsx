@@ -134,6 +134,16 @@ const WORKS = [
     img: "https://img.youtube.com/vi/w1Qqm3mSKcc/hqdefault.jpg",
     video: "https://youtube.com/shorts/w1Qqm3mSKcc",
   },
+  {
+    id: 9, title: "Ningen wo Kaburu — Band Promo Film",
+    subtitle: "Promotional Film · Direction & Editing",
+    category: "Film",
+    org: "Personal Project",
+    year: "2026",
+    desc: "Directed and edited a promotional film for the band Ningen wo Kaburu, translating the group's sound and identity into a cohesive visual piece through performance footage and atmospheric cinematography.",
+    img: "https://img.youtube.com/vi/jmcTJLom44M/hqdefault.jpg",
+    video: "https://youtu.be/jmcTJLom44M",
+  },
 ];
 
 const CATEGORIES = ["All", "Film", "Commercial", "Event", "Marketing", "Social"];
