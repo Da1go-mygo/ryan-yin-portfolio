@@ -141,7 +141,7 @@ const WORKS = [
     org: "Personal Project",
     year: "2026",
     desc: "Directed and edited a promotional film for the band Ningen wo Kaburu, translating the group's sound and identity into a cohesive visual piece through performance footage and atmospheric cinematography.",
-    img: "https://img.youtube.com/vi/jmcTJLom44M/hqdefault.jpg",
+    img: "/images/ningen.png",
     video: "https://youtu.be/jmcTJLom44M",
   },
 ];
