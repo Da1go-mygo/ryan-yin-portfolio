@@ -48,8 +48,8 @@ function Reveal({ children, delay = 0, style = {} }) {
 
 /* ── Tokens ── */
 const C = {
-  bg: "#0B0C0D", bg2: "#111314", fg: "#EDE8DF", mid: "#ABA9A3",
-  light: "#93918C", accent: "#C4B292", line: "#2C2D2D",
+  bg: "#17191B", bg2: "#202326", fg: "#EDE8DF", mid: "#ABA9A3",
+  light: "#93918C", accent: "#C4B292", line: "#383B3D",
 };
 const font = { display: "'Cormorant', serif", body: "'DM Sans', sans-serif" };
 

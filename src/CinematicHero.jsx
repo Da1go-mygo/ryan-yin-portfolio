@@ -40,6 +40,7 @@ function BackgroundFilm({ film, play, load, onStatus, onEnd }) {
     let disposed = false;
     let ready = false;
     let instance;
+    let revealTimer;
     // YouTube replaces its target. Keep that target outside React's managed children.
     const target = document.createElement("div");
     host.current.appendChild(target);
@@ -65,11 +66,19 @@ function BackgroundFilm({ film, play, load, onStatus, onEnd }) {
           },
           onStateChange: event => {
             if (disposed) return;
+            clearTimeout(revealTimer);
             if (event.data === YT.PlayerState.PLAYING) {
               if (!desired.current) { event.target.pauseVideo(); return; }
               ready = true;
               clearTimeout(timeout);
-              callbacks.current.onStatus("playing");
+              // Let YouTube's transient play/pause overlay disappear before revealing it.
+              revealTimer = setTimeout(() => {
+                if (!disposed && desired.current && event.target.getPlayerState() === YT.PlayerState.PLAYING) {
+                  callbacks.current.onStatus("playing");
+                }
+              }, 1400);
+            } else {
+              callbacks.current.onStatus("waiting");
             }
             if (event.data === YT.PlayerState.ENDED && desired.current) callbacks.current.onEnd();
           },
@@ -81,6 +90,7 @@ function BackgroundFilm({ film, play, load, onStatus, onEnd }) {
     return () => {
       disposed = true;
       clearTimeout(timeout);
+      clearTimeout(revealTimer);
       player.current = null;
       instance?.destroy();
       target.remove();
@@ -91,7 +101,7 @@ function BackgroundFilm({ film, play, load, onStatus, onEnd }) {
     const current = player.current;
     if (!current) return;
     if (play) { current.mute(); current.playVideo(); }
-    else current.pauseVideo();
+    else { callbacks.current.onStatus("waiting"); current.pauseVideo(); }
   }, [play]);
 
   return <div ref={host} className="film-player" aria-hidden="true" />;
@@ -143,7 +153,7 @@ export default function CinematicHero({ suspended = false }) {
     <section id="top" ref={root} className="cinematic-hero" aria-label="Introduction">
       <div className="film-stage" aria-hidden="true" inert="">
         {FILMS.map((item, index) => <img key={item.id} className={`film-poster ${index === active ? "is-active" : ""}`} src={item.poster} alt="" fetchpriority={index === 0 ? "high" : "auto"} onError={event => { if (!event.currentTarget.dataset.fallback) { event.currentTarget.dataset.fallback = "true"; event.currentTarget.src = `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`; } }} />)}
-        <div className={`film-video ${status === "playing" ? "is-ready" : ""}`}>
+        <div className={`film-video ${playing && status === "playing" ? "is-ready" : ""}`}>
           <BackgroundFilm key={`${film.id}-${attempt}`} film={film} play={playing} load={started} onStatus={handleStatus} onEnd={next} />
         </div>
       </div>
@@ -166,7 +176,7 @@ export default function CinematicHero({ suspended = false }) {
           {FILMS.map((item, index) => <button key={item.id} onClick={() => choose(index)} aria-pressed={index === active} className={index === active ? "is-selected" : ""}><span className="film-number">0{index + 1}</span><span>{item.title}<small>{item.category}</small></span><span className="film-indicator" /></button>)}
         </div>
         <button className="film-toggle" onClick={togglePlayback} aria-label={paused ? "Play background video" : "Pause background video"} aria-pressed={paused}>
-          <span aria-hidden="true">{paused ? "▷" : "Ⅱ"}</span><span>{paused ? "PLAY FILM" : status === "playing" ? "PAUSE FILM" : status === "unavailable" || status === "blocked" ? "FILM STILL" : "LOADING FILM"}</span>
+          {paused ? "Play background video" : "Pause background video"}
         </button>
       </div>
     </section>
