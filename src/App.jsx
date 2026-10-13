@@ -429,21 +429,45 @@ export default function Portfolio() {
           </Reveal>
           {[
             {
-              period: "Nov 2025 — Feb 2026", title: "Media & Content Intern",
+              period: "Mar 2026 — Present", title: "Marketing Specialist",
+              company: "TMGM · Sydney, Australia",
+              points: [
+                "Acquired 100+ clients through social media and targeted outreach, supporting prospects from initial enquiry through onboarding",
+                "Created posts and videos generating tens of thousands of cumulative views through engaging visuals, clear messaging, and calls to action",
+                "Plan and manage daily content across Meta, TikTok, WeChat, and LinkedIn, from research and scripting to filming, editing, design, and publishing",
+                "Collaborate with sales and compliance on campaigns and educational content, using views, engagement, and enquiries to refine content and support client acquisition",
+              ],
+              tag: "Marketing",
+            },
+            {
+              period: "Nov 2025 — Feb 2026", title: "Marketing & Content Intern",
               company: "Lion Media Group · Melbourne, Australia",
-              points: ["Managed WeChat public account with daily content updates", "Produced video content from planning through final editing", "Coordinated media coverage for multiple high-profile corporate events", "Selected as sole company representative for embassy reception", "Developed content strategies increasing social media audience reach"],
+              points: [
+                "Grew the WeChat public account through daily, audience-focused publishing; the top article exceeded 200K views",
+                "Produced video content end-to-end, from planning and scripting through filming, editing, and optimisation for digital distribution",
+                "Conducted interviews with key figures and produced feature stories for the company's digital channels",
+                "Coordinated high-profile corporate event coverage and represented the company as the sole on-site media at an embassy reception",
+              ],
               tag: "Media",
             },
             {
               period: "Dec 2024 — Jan 2025", title: "Media Production Intern",
               company: "SMG & SMT · Shanghai, China",
-              points: ["Mixed live audio during New Year's Day broadcast", "Filmed & edited interview with music producer Seina", "Produced promotional video for M-cube recording studio", "Edited Lincoln Aviator exhibition promo under overnight deadline"],
+              points: [
+                "Mixed live audio during the New Year's Day broadcast and supported on-air workflows alongside senior broadcast technicians",
+                "Produced and edited promotional videos for the in-house recording studio and Lincoln Aviator exhibition booth under tight deadlines",
+                "Filmed and edited an interview with music producer Seina and assisted on an artist Xinling Zhu feature interview, including lighting and post-production",
+              ],
               tag: "Production",
             },
             {
               period: "Aug 2023 — Jun 2024", title: "Marketing & Operations Assistant",
               company: "Heychic Marketing & Fashion Photography · Sydney, Australia",
-              points: ["Developed sales strategies boosting marketing campaign engagement", "Captured and edited apparel photography for brand promotions", "Assisted campaign planning boosting seasonal product visibility", "Monitored e-commerce operations improving order accuracy"],
+              points: [
+                "Assisted with sales strategy and seasonal campaigns to lift product visibility and engagement across digital and retail channels",
+                "Captured and edited apparel photography for campaigns and e-commerce listings in line with brand styling guidelines",
+                "Coordinated inventory transfers between warehouse and retail locations and monitored e-commerce operations to improve order accuracy and fulfilment speed",
+              ],
               tag: "Marketing",
             },
           ].map((exp, i) => (
@@ -463,13 +487,13 @@ export default function Portfolio() {
                 <div>
                   <h3 style={{ fontFamily: font.display, fontSize: "clamp(20px,2.5vw,28px)", fontWeight: 400, color: C.fg, margin: "0 0 4px" }}>{exp.title}</h3>
                   <div style={{ fontFamily: font.body, fontSize: 13, color: C.mid, marginBottom: 16 }}>{exp.company}</div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 16px" }}>
+                  <ul style={{ display: "grid", gap: 8, listStyle: "none", margin: 0, padding: 0 }}>
                     {exp.points.map((p, j) => (
-                      <span key={j} style={{ fontFamily: font.body, fontSize: 13, color: C.mid, fontWeight: 300, lineHeight: 1.8 }}>
-                        <span style={{ color: C.accent, marginRight: 6, fontSize: 8, verticalAlign: "middle" }}>●</span>{p}
-                      </span>
+                      <li key={j} style={{ display: "flex", alignItems: "baseline", gap: 9, fontFamily: font.body, fontSize: 13, color: C.mid, fontWeight: 300, lineHeight: 1.8 }}>
+                        <span aria-hidden="true" style={{ color: C.accent, fontSize: 8, flexShrink: 0 }}>●</span><span>{p}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
             </Reveal>
